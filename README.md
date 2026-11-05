@@ -28,7 +28,7 @@ cd macos/Source
 
 The [Pages workflow](.github/workflows/pages.yml) publishes `index.html` and the downloadable ZIP whenever those files change on `main`. Configure the repository's Pages source as **GitHub Actions**.
 
-For the first publication, run `./scripts/publish-github.sh` from a terminal with working GitHub access and an authenticated `gh` account authorized for `prichards14`. It creates the public repository, pushes the commit, enables Pages, and requests a deployment. If the repository or its Pages site already exists, it reuses them.
+For the first publication, run `./scripts/publish-github.sh` from a terminal with working GitHub access and an authenticated `gh` account authorized for `<github-account>`. It creates the public repository, pushes the commit, enables Pages, and requests a deployment. If the repository or its Pages site already exists, it reuses them.
 
 Check the deployment in the repository's **Actions** tab. A URL printed by the publishing script is the expected address; a successful deployment must be confirmed before treating it as live.
 
