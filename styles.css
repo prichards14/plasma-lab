@@ -55,14 +55,14 @@ a:focus-visible {
 }
 .shell {
   max-width: 1600px;
-  padding: 28px 36px;
+  padding: 20px 28px;
   margin: auto;
 }
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 26px;
+  padding-bottom: 16px;
   border-bottom: 1px solid var(--line);
 }
 .brand {
@@ -104,7 +104,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: end;
-  margin: 30px 0 24px;
+  margin: 18px 0 16px;
 }
 .eyebrow {
   color: var(--accent);
@@ -114,7 +114,7 @@ h1 {
   font-weight: 550;
   line-height: 1.1;
   letter-spacing: -2px;
-  margin: 10px 0;
+  margin: 6px 0 0;
 }
 p {
   color: var(--muted);
@@ -127,7 +127,7 @@ p {
 .workspace {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
-  gap: 20px;
+  gap: 14px;
 }
 .display {
   min-width: 0;
@@ -194,7 +194,7 @@ canvas {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 16px 0;
+  padding: 10px 0;
 }
 .actions {
   display: flex;
@@ -217,12 +217,12 @@ canvas {
   text-align: right;
 }
 .presets {
-  padding: 19px 0;
+  padding: 12px 0;
   border-top: 1px solid var(--line);
 }
 .section-name {
   color: var(--muted);
-  margin-bottom: 13px;
+  margin-bottom: 8px;
 }
 .preset-list {
   display: flex;
@@ -247,7 +247,7 @@ canvas {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 22px;
+  padding: 16px;
 }
 .panel-title {
   display: flex;
@@ -255,7 +255,7 @@ canvas {
   justify-content: space-between;
   font-weight: 650;
   font-size: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 .panel-title button {
   font-size: 11px;
@@ -263,10 +263,10 @@ canvas {
   color: var(--muted);
 }
 .group {
-  padding: 20px 0;
+  padding: 14px 0;
   border-top: 1px solid var(--line);
 }
-.group:first-of-type {
+.panel-title + .group {
   padding-top: 0;
   border: 0;
 }
@@ -274,7 +274,7 @@ canvas {
   padding-bottom: 0;
 }
 .control {
-  margin-top: 16px;
+  margin-top: 10px;
 }
 .label {
   display: flex;
@@ -282,7 +282,7 @@ canvas {
   align-items: center;
   gap: 10px;
   font-size: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .label output {
   color: var(--accent);
@@ -316,7 +316,7 @@ select {
   justify-content: space-between;
   align-items: center;
   font-size: 12px;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 .switch-row input {
   accent-color: var(--accent);
@@ -327,8 +327,8 @@ select {
   display: flex;
   justify-content: space-between;
   border-top: 1px solid var(--line);
-  padding-top: 20px;
-  margin-top: 26px;
+  padding-top: 14px;
+  margin-top: 16px;
   color: #727580;
   font:
     10px ui-monospace,
@@ -370,8 +370,8 @@ select {
     grid-column: 1/-1;
     margin-bottom: 10px;
   }
-  .group:first-of-type {
-    padding-top: 20px;
+  .panel-title + .group {
+    padding-top: 14px;
     border-top: 1px solid var(--line);
   }
   .intro .caption {
@@ -406,11 +406,11 @@ select {
     padding: 8px 10px;
   }
   .footer {
-    gap: 20px;
+    gap: 14px;
     font-size: 9px;
   }
   .intro {
-    margin-top: 24px;
+    margin-top: 16px;
   }
   h1 {
     letter-spacing: -1.2px;
