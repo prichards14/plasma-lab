@@ -10,7 +10,7 @@ if [[ "$(git branch --show-current)" != "main" ]]; then
  echo "Run this script on the main branch; leaving the current branch unchanged." >&2
  exit 1
 fi
-git add .gitignore .github README.md index.html macos docs downloads scripts
+git add .gitignore .github README.md index.html app.js styles.css macos docs downloads scripts
 if ! git diff --cached --quiet; then
  git commit -m "Add Plasma Lab web demo, macOS screen saver, and GitHub Pages deployment"
 fi

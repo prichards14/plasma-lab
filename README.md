@@ -4,7 +4,7 @@ An offline-capable HTML/CSS/JavaScript plasma playground inspired by 1990s Commo
 
 ## Web demo
 
-Open `index.html` directly in a browser. No installation, build step, libraries, fonts, or network access is required.
+Open `index.html` directly in a browser, keeping `app.js` and `styles.css` alongside it. No installation, build step, libraries, fonts, or network access is required.
 
 The planned GitHub Pages address is **https://prichards14.github.io/plasma-lab/**. It becomes available after the repository is published, Pages is enabled, and the deployment succeeds.
 
@@ -26,7 +26,7 @@ cd macos/Source
 
 ## GitHub Pages
 
-The [Pages workflow](.github/workflows/pages.yml) publishes `index.html` and the downloadable ZIP whenever those files change on `main`. Configure the repository's Pages source as **GitHub Actions**.
+The [Pages workflow](.github/workflows/pages.yml) publishes `index.html`, `app.js`, `styles.css`, and the downloadable ZIPs whenever those files change on `main`. Configure the repository's Pages source as **GitHub Actions**.
 
 For the first publication, run `./scripts/publish-github.sh` from a terminal with working GitHub access and an authenticated `gh` account authorized for `prichards14`. It creates the public repository, pushes the commit, enables Pages, and requests a deployment. If the repository or its Pages site already exists, it reuses them.
 

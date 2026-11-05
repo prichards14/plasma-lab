@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - index.html
+      - app.js
+      - styles.css
       - downloads/**
       - .github/workflows/pages.yml
   workflow_dispatch:
@@ -25,7 +27,7 @@ jobs:
       - name: Prepare standalone site
         run: |
           mkdir -p _site/downloads
-          cp index.html _site/index.html
+          cp index.html app.js styles.css _site/
           cp downloads/*.zip _site/downloads/
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
