@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-REPO="<github-account>/plasma-lab"
+REPO="prichards14/plasma-lab"
 gh api user --jq .login
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
  git init -b main
@@ -39,5 +39,5 @@ else
  gh api --method POST "repos/$REPO/pages" -f build_type=workflow >/dev/null
 fi
 gh workflow run pages.yml --repo "$REPO" --ref main
-printf 'Repository: https://github.com/%s\nExpected Pages URL after successful deployment: https://<github-account>.github.io/plasma-lab/\n' "$REPO"
+printf 'Repository: https://github.com/%s\nExpected Pages URL after successful deployment: https://prichards14.github.io/plasma-lab/\n' "$REPO"
 echo "Confirm the deployment in the repository's Actions tab."

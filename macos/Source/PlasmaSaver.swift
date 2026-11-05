@@ -127,6 +127,41 @@ final class PlasmaSaverView: ScreenSaverView {
  }
 }
 
+// Render the editor into an ordinary AppKit image view. ScreenSaverView's own
+// display lifecycle is controlled by the system host, so it is not used as a UI subview.
+@objc(PlasmaPreviewView)
+private final class PlasmaPreviewView: NSImageView {
+ private let renderer: PlasmaSaverView
+ override init(frame:NSRect) {
+  renderer = PlasmaSaverView(frame:NSRect(origin:.zero,size:frame.size),isPreview:true)!
+  renderer.usesDraftSettings = true
+  super.init(frame:frame)
+  imageScaling = .scaleAxesIndependently
+  setAccessibilityLabel("Live plasma preview")
+ }
+ required init?(coder:NSCoder) { fatalError("Not supported") }
+ fileprivate func apply(_ settings:Settings) { renderer.apply(settings); renderFrame() }
+ fileprivate func animateOneFrame() { renderer.animateOneFrame(); renderFrame() }
+ private func renderFrame() {
+  guard bounds.width > 0, bounds.height > 0 else { return }
+  let scale = window?.backingScaleFactor ?? 1
+  guard let bitmap = NSBitmapImageRep(bitmapDataPlanes:nil,pixelsWide:Int(ceil(bounds.width*scale)),pixelsHigh:Int(ceil(bounds.height*scale)),bitsPerSample:8,samplesPerPixel:4,hasAlpha:true,isPlanar:false,colorSpaceName:.deviceRGB,bytesPerRow:0,bitsPerPixel:0),
+        let context = NSGraphicsContext(bitmapImageRep:bitmap) else { return }
+  bitmap.size = bounds.size
+  renderer.setFrameSize(bounds.size)
+  NSGraphicsContext.saveGraphicsState()
+  NSGraphicsContext.current = context
+  context.cgContext.scaleBy(x:scale,y:scale)
+  renderer.draw(renderer.bounds)
+  NSGraphicsContext.restoreGraphicsState()
+  // A fresh image avoids reusing a cached layer backing store after a control changes.
+  let next = NSImage(size:bounds.size); next.addRepresentation(bitmap)
+  image = next
+  needsDisplay = true
+  displayIfNeeded()
+ }
+}
+
 private final class OptionsController: NSWindowController, NSWindowDelegate {
  private var draft = Settings.load()
  private var sliders: [String:NSSlider] = [:]
@@ -135,7 +170,7 @@ private final class OptionsController: NSWindowController, NSWindowDelegate {
  private let preset = NSPopUpButton()
  private let fps = NSPopUpButton()
  private let crt = NSButton(checkboxWithTitle:"CRT scanlines and vignette",target:nil,action:nil)
- private var preview: PlasmaSaverView!
+ private var preview: PlasmaPreviewView!
  private var timer: Timer?
  private let onSave: (Settings)->Void
  private let standalone: Bool
@@ -153,8 +188,7 @@ private final class OptionsController: NSWindowController, NSWindowDelegate {
   }
   text("Plasma Lab",NSRect(x:24,y:595,width:400,height:27),.systemFont(ofSize:22,weight:.semibold))
   text("Amiga-inspired plasma, made for your Mac.",NSRect(x:24,y:571,width:550,height:20))
-  preview = PlasmaSaverView(frame:NSRect(x:24,y:318,width:332,height:234),isPreview:true)!
-  preview.usesDraftSettings = true
+  preview = PlasmaPreviewView(frame:NSRect(x:24,y:318,width:332,height:234))
   preview.wantsLayer = true; preview.layer?.cornerRadius = 9; preview.layer?.masksToBounds = true; root.addSubview(preview)
   text("LIVE PREVIEW",NSRect(x:24,y:293,width:332,height:18),.systemFont(ofSize:10,weight:.medium))
   text("Preset",NSRect(x:24,y:248,width:90,height:22))
@@ -184,9 +218,7 @@ private final class OptionsController: NSWindowController, NSWindowDelegate {
  func reload() {
   draft = Settings.load()
   if standalone, let data = UserDefaults.standard.data(forKey:"lastExport"), let last = try? JSONDecoder().decode(Settings.self,from:data) { draft = last }
-  preset.selectItem(at:4); sync(); timer?.invalidate()
-  timer = Timer(timeInterval:1.0/30,repeats:true) { [weak self] _ in self?.preview.animateOneFrame() }
-  RunLoop.main.add(timer!,forMode:.common)
+  preset.selectItem(at:4); sync()
  }
  private func sync() {
   for k in keys { sliders[k]?.doubleValue = draft.values[k]! }
@@ -199,6 +231,13 @@ private final class OptionsController: NSWindowController, NSWindowDelegate {
    readouts[k]?.stringValue = (k == "width" || k == "height") ? "\(Int(n)) px" : ((k == "speed" || k == "scale") ? String(format:"%.2f×",n/100) : "\(Int(n))%")
   }
   preview.apply(draft)
+  let interval = 1.0/Double(draft.fps)
+  // Preserve the timer while dragging; restarting it on every input starves animation.
+  if timer == nil || timer?.isValid == false || abs((timer?.timeInterval ?? 0)-interval) > 0.0001 {
+   timer?.invalidate()
+   timer = Timer(timeInterval:interval,repeats:true) { [weak self] _ in self?.preview.animateOneFrame() }
+   RunLoop.main.add(timer!,forMode:.common)
+  }
  }
  @objc private func sliderChanged(_ sender:NSSlider) { if let k = sender.identifier?.rawValue { draft.values[k] = sender.doubleValue.rounded() }; preset.selectItem(at:4); refresh() }
  @objc private func changed() { draft.palette = palette.indexOfSelectedItem; draft.crt = crt.state == .on; draft.fps = [15,30,60][fps.indexOfSelectedItem]; preset.selectItem(at:4); refresh() }

@@ -1,4 +1,4 @@
-# Version 1.1 verification
+# Version 1.2 verification
 
 Completed on the available Apple silicon Mac:
 
@@ -7,6 +7,10 @@ Completed on the available Apple silicon Mac:
 - Started, advanced, rendered, and stopped the native animation; visually inspected its PNG output.
 - Asserted all eight slider defaults against the screenshot and confirmed CRT is off.
 - Constructed the Options sheet with an explicit content view controller.
+- Compared the actual image displayed in the Options preview before/after changes to block width, height, density, gap, wave scale, turbulence, palette, color drift, and CRT treatment.
+- Confirmed the preview animates in slider-tracking run loop mode, including while repeated slider actions arrive faster than the animation timer.
+- Confirmed zero wave speed freezes preview pixels and restoring speed resumes animation.
+- The regular AppKit image-view preview renders each frame explicitly and cannot have its draft settings reset by ScreenSaverView host lifecycle callbacks.
 - Exercised all eight sliders at their maximum values and every menu choice.
 - Attached the Options window as an actual AppKit sheet and dismissed it using Cancel.
 - Verified the same Options window survives creation of another screen saver view.
@@ -19,6 +23,6 @@ Source/verify.sh reproduces native checks without installing a screen saver. Tem
 
 A direct companion-app launch test could not complete in this restricted build environment: macOS aborted application registration before the settings UI was created. A normal LaunchServices launch attempt was also refused with a “missing executable” error even though the executable exists, is executable, and passes signature and architecture checks. Full companion launch therefore remains unverified; its shared native controls, embedded template, export code, binary architectures, and signature were checked separately. The optional `PLASMA_LAB_VERIFY_APP_UI=1 ./verify.sh` adds a direct app-launch test on a normal desktop session.
 
-Remaining limits: actual System Settings Options-button routing on the user's macOS 27.0.1, the installation/replacement prompt, idle activation and dismissal, multi-display and lock-screen behavior, Intel hardware execution, and sustained frame rate have not been verified. The user's report confirms that the earlier screen saver itself ran, while Options did not open. The companion is an independent configuration/export route; it does not claim to repair macOS's host.
+Remaining limits: actual System Settings Options-button routing on the user's macOS 27.0.1, the installation/replacement prompt, idle activation and dismissal, multi-display and lock-screen behavior, Intel hardware execution, and sustained frame rate have not been verified. The user reports that settings now otherwise work, but the earlier preview did not update. The new preview is tested through its actual displayed image pixels. The companion is an independent configuration/export route; it does not claim to repair macOS's host.
 
 Neither bundle is Developer ID signed or notarized. ZIP packaging excludes extended attributes; signature checks use clean copies to avoid transient Finder metadata attached by the synced Documents folder.

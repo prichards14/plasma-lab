@@ -1,6 +1,8 @@
-# Plasma Lab for macOS — version 1.1
+# Plasma Lab for macOS — version 1.2
 
-Native Amiga-style plasma screen saver, now with screenshot-matched defaults and a companion Mac settings app for systems where the built-in Options button does not open.
+Native Amiga-style plasma screen saver with screenshot-matched defaults, a companion Mac settings app, and a live-preview redraw fix in version 1.2.
+
+The editor now displays freshly rendered images immediately when controls change. Its timer remains active during continuous slider drags and follows the selected frame rate. This applies to both the built-in Options sheet and the companion app. Replace both the screen saver and the companion app when upgrading; the app contains its own screen saver template.
 
 ## Replace your current version
 
@@ -63,7 +65,7 @@ macOS handles starting, fullscreen display, dismissal, and locking. Mouse intera
 
 ## Compatibility, source, and removal
 
-Both bundles contain arm64 and x86_64 binaries targeting **macOS 14 or later**. This is a traditional `.saver` plug-in, not a dynamic wallpaper or aerial-video extension. The user reported that version 1 animates successfully on macOS 27.0.1; the revised System Settings Options presentation has not been confirmed there.
+Both bundles contain arm64 and x86_64 binaries targeting **macOS 14 or later**. This is a traditional `.saver` plug-in, not a dynamic wallpaper or aerial-video extension. The user reports that the screen saver and settings otherwise work on macOS 27.0.1. Version 1.2 addresses the reported stale editor preview. Its pixel output is regression-tested; the updated UI still needs confirmation on that Mac.
 
 With Apple's Xcode Command Line Tools installed, open Terminal in `Source` and run:
 

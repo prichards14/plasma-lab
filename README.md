@@ -12,9 +12,9 @@ Controls include block geometry, density, wave speed and scale, turbulence, pale
 
 ## macOS screen saver
 
-Download [Plasma Lab v1.1](downloads/Plasma-Lab-macOS-v1.1.zip). The archive includes the universal Apple silicon/Intel screen saver, companion settings app, and source.
+Download [Plasma Lab v1.2](downloads/Plasma-Lab-macOS-v1.2.zip). The archive includes the universal Apple silicon/Intel screen saver, companion settings app, and source.
 
-See [installation and settings instructions](macos/README.md) and [verification limits](macos/VERIFICATION.md). The minimum target is macOS 14. The bundles are locally signed, not Apple-notarized. The companion's controls and export implementation are tested; full app launch and the System Settings Options button on macOS 27.0.1 remain unverified.
+See [installation and settings instructions](macos/README.md) and [verification limits](macos/VERIFICATION.md). The minimum target is macOS 14. The bundles are locally signed, not Apple-notarized. Version 1.2 fixes the stale Options preview using explicit image rendering and a timer that keeps running during slider drags. Native preview pixel changes, controls, saving, and export are tested; final UI behavior on the user's Mac remains to be confirmed.
 
 To rebuild with Apple's Xcode Command Line Tools:
 
@@ -28,7 +28,7 @@ cd macos/Source
 
 The [Pages workflow](.github/workflows/pages.yml) publishes `index.html` and the downloadable ZIP whenever those files change on `main`. Configure the repository's Pages source as **GitHub Actions**.
 
-For the first publication, run `./scripts/publish-github.sh` from a terminal with working GitHub access and an authenticated `gh` account authorized for `<github-account>`. It creates the public repository, pushes the commit, enables Pages, and requests a deployment. If the repository or its Pages site already exists, it reuses them.
+For the first publication, run `./scripts/publish-github.sh` from a terminal with working GitHub access and an authenticated `gh` account authorized for `prichards14`. It creates the public repository, pushes the commit, enables Pages, and requests a deployment. If the repository or its Pages site already exists, it reuses them.
 
 Check the deployment in the repository's **Actions** tab. A URL printed by the publishing script is the expected address; a successful deployment must be confirmed before treating it as live.
 
