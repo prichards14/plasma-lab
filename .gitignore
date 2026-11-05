@@ -1,0 +1,7 @@
+.DS_Store
+work/
+outputs/
+_site/
+macos/*.saver/
+macos/*.app/
+macos/Preview.png
